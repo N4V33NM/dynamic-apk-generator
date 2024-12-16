@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # Explicitly using Ubuntu 22.04
 
     steps:
     - name: Checkout code
@@ -18,19 +18,21 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '17'  # Change to Java 17
+        java-version: '17'  # Set to Java 17 as required by Android Gradle Plugin
+        distribution: 'zulu'  # Use Zulu OpenJDK
 
     - name: Set executable permissions for gradlew
-      run: chmod +x ./gradlew
+      run: chmod +x ./gradlew  # Ensure gradlew is executable
 
-    - name: Inject Chat ID
+    - name: Inject Chat ID into Constants.java
       run: sed -i 's/CHAT_ID_PLACEHOLDER/${{ github.event.inputs.chat_id }}/g' app/src/main/java/com/example/dynamicapk/Constants.java
+      # This step replaces the CHAT_ID_PLACEHOLDER in Constants.java with the chat_id input
 
     - name: Build APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug  # Build the APK using Gradle
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
-        name: user-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        name: user-apk  # Name of the artifact to upload
+        path: app/build/outputs/apk/debug/app-debug.apk  # Path to the generated APK
