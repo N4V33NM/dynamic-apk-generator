@@ -1,0 +1,34 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      chat_id:
+        description: 'Telegram Chat ID'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'zulu'
+
+    - name: Inject Chat ID
+      run: sed -i 's/CHAT_ID_PLACEHOLDER/${{ github.event.inputs.chat_id }}/g' app/src/main/java/com/example/dynamicapk/Constants.java
+
+    - name: Build APK
+      run: ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: user-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
