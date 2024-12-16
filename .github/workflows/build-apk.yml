@@ -21,6 +21,9 @@ jobs:
         java-version: '11'
         distribution: 'zulu'
 
+    - name: Set executable permissions for gradlew
+      run: chmod +x ./gradlew
+
     - name: Inject Chat ID
       run: sed -i 's/CHAT_ID_PLACEHOLDER/${{ github.event.inputs.chat_id }}/g' app/src/main/java/com/example/dynamicapk/Constants.java
 
