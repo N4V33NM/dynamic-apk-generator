@@ -4,6 +4,5 @@
     android:packageNames=""
     android:notificationTimeout="100"
     android:canRetrieveWindowContent="true"
-    android:flagDefault="true"
     android:description="@string/accessibility_service_description"
     android:settingsActivity="com.example.dynamicapk.SettingsActivity" />
