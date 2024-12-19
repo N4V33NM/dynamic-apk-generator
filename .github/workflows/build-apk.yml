@@ -21,6 +21,10 @@ jobs:
         java-version: '17'
         distribution: 'zulu'
 
+    - name: Set Gradle version
+      run: |
+        echo "distributionUrl=https\://services.gradle.org/distributions/gradle-7.5.1-all.zip" > gradle/wrapper/gradle-wrapper.properties
+
     - name: Set executable permissions for gradlew
       run: chmod +x ./gradlew
       working-directory: Android-Keylogger/AndroidKeylogger
