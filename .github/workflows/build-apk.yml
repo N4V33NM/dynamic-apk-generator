@@ -21,8 +21,9 @@ jobs:
         java-version: '17'
         distribution: 'zulu'
 
-    - name: Set Gradle version
+    - name: Ensure Gradle wrapper directory exists
       run: |
+        mkdir -p gradle/wrapper
         echo "distributionUrl=https\://services.gradle.org/distributions/gradle-7.5.1-all.zip" > gradle/wrapper/gradle-wrapper.properties
 
     - name: Set executable permissions for gradlew
