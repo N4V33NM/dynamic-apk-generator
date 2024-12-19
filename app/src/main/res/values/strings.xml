@@ -1,3 +1,0 @@
-<resources>
-    <string name="accessibility_service_description">This is the keylogger service that listens for text input events.</string>
-</resources>
